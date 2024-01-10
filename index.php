@@ -45,12 +45,26 @@ $hotels = [
 
 $filtered_hotels = $hotels;
 
+// Filter parking
 $parking = !empty($_GET['parking']) ? true : false;
 
 if ($parking) {
     $hotels_list = [];
     foreach ($filtered_hotels as $hotel) {
         if ($hotel['parking']) {
+            $hotels_list[] = $hotel;
+        }
+    }
+    $filtered_hotels = $hotels_list;
+}
+
+// Filter vote
+$vote = !empty($_GET['vote']) ? intval($_GET['vote']) : false;
+
+if ($vote) {
+    $hotels_list=[];
+    foreach ($filtered_hotels as $hotel) {
+        if ($hotel['vote'] >= $vote) {
             $hotels_list[] = $hotel;
         }
     }
@@ -81,6 +95,16 @@ if ($parking) {
                             <input class="form-check-input" type="checkbox" value="1" id="parking" name="parking" <?php if ($parking) : ?> checked <?php endif; ?>>
                             <label for="parking" class="form-check-label">Hotel con parcheggio</label>
                         </div>
+                    </div>
+                    <!-- Vote Filter -->
+                    <div class="col-auto">
+                        <select name="vote" class="form-select form-select-sm">
+                            <option selected value="">All votes</option>
+                            <?php for($i = 1; $i <= 5; $i++) : ?>
+                                <option value="<?php echo $i; ?>" <?php if($vote === $i) : ?> selected <?php endif; ?>> Vote <?php echo $i; ?></option>
+                            <?php endfor; ?>        
+                        </select>
+
                     </div>
                     <!-- Button -->
                     <div class="col">

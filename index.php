@@ -43,6 +43,19 @@ $hotels = [
 //     var_dump($hotels);
 // echo "</pre>";
 
+$filtered_hotels = $hotels;
+
+$parking = !empty($_GET['parking']) ? true : false;
+
+if ($parking) {
+    $hotels_list = [];
+    foreach ($filtered_hotels as $hotel) {
+        if ($hotel['parking']) {
+            $hotels_list[] = $hotel;
+        }
+    }
+    $filtered_hotels = $hotels_list;
+}
 ?>
 
 <!DOCTYPE html>
@@ -58,10 +71,28 @@ $hotels = [
 
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Hotels</h1>
+        <h1 class="text-center">Hotels</h1>
+        <div class="hotel-filters py-5">
+            <form action="index.php" method="GET">
+                <div class="row align-items-center">
+                    <!-- Parking Filter -->
+                    <div class="col-auto">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="parking" name="parking" <?php if ($parking) : ?> checked <?php endif; ?>>
+                            <label for="parking" class="form-check-label">Hotel con parcheggio</label>
+                        </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="col">
+                        <button class="btn btn-primary btn-sm">Cerca</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
         <!-- Lista Hotel - milestone 1 -->
         <!-- <ul>
-        <?php foreach ($hotels as $hotel) : ?>
+        <?php foreach ($filtered_hotels as $hotel) : ?>
             <li>
                 <h2><?php echo $hotel['name']; ?></h2>
                 <div><?php echo $hotel['description']; ?></div>
@@ -72,7 +103,7 @@ $hotels = [
         <?php endforeach; ?>
         </ul> -->
         <!-- /Lista Hotel - milestone 1-->
-        
+
         <!-- Milestone 2 - table -->
         <table class="table table-striped">
             <thead>
@@ -85,7 +116,7 @@ $hotels = [
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($hotels as $hotel) : ?>
+                <?php foreach ($filtered_hotels as $hotel) : ?>
                     <tr>
                         <td class="table-primary"><?php echo $hotel['name']; ?></td>
                         <td class="table-success"><?php echo $hotel['description']; ?></td>

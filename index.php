@@ -115,6 +115,7 @@ if ($vote) {
         </div>
 
         <!-- Lista Hotel - milestone 1 -->
+        <?php if(count($filtered_hotels)) : ?>
         <!-- <ul>
         <?php foreach ($filtered_hotels as $hotel) : ?>
             <li>
@@ -151,6 +152,11 @@ if ($vote) {
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <?php else : ?>
+            <div class="alert alert-info" role="alert">
+                Siamo spiacenti! Nessun hotel trovato.
+            </div>
+        <?php endif; ?>
         <!-- /Milestone 2 - table -->
     </div>
 </body>
